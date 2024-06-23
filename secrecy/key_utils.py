@@ -4,6 +4,7 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 import os
 
+# key generation
 def generate_rsa_keys():
     private_key = rsa.generate_private_key(
         public_exponent=65537,
@@ -12,15 +13,18 @@ def generate_rsa_keys():
     public_key = private_key.public_key()
     return private_key, public_key
 
+# key serialization
 def serialize_public_key(public_key):
     return public_key.public_bytes(
         encoding=serialization.Encoding.PEM,
         format=serialization.PublicFormat.SubjectPublicKeyInfo
     )
 
+# key deserialization
 def deserialize_public_key(public_key_bytes):
     return serialization.load_pem_public_key(public_key_bytes)
 
+# do the work
 def encrypt_with_rsa(public_key, message):
     return public_key.encrypt(
         message,
